@@ -15,6 +15,13 @@ module Apartment
     # Default adapter when not using Postgresql Schemas
     class PostgresqlAdapter < AbstractAdapter
 
+      def initialize(config)
+        super
+
+        Apartment.connection_handler = ActiveRecord::ConnectionAdapters::ConnectionHandler.new
+        reset
+      end
+
     private
 
       def rescue_from
@@ -28,6 +35,7 @@ module Apartment
       def initialize(config)
         super
 
+        Apartment.establish_connection(config)
         reset
       end
 
